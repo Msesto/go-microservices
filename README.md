@@ -1,2 +1,3 @@
 # go-microservices
-go microservices course/playground.
+
+This repo follows a Go microservices videocourse but freely, not an exact step by step.
