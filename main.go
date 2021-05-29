@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"time"
 
+	gohandler "github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/msesto/go-microservices/handlers"
 )
@@ -30,9 +31,12 @@ func main() {
 	postRouter.HandleFunc("/", ph.AddProduct)
 	postRouter.Use(ph.MiddlewareProductValidation)
 
+	// CORS
+	corsh := gohandler.CORS(gohandler.AllowedOrigins([]string{"http://localhost:3000"}))
+
 	s := &http.Server{
 		Addr:         ":9090",
-		Handler:      sm,
+		Handler:      corsh(sm),
 		IdleTimeout:  120 * time.Second,
 		ReadTimeout:  1 * time.Second,
 		WriteTimeout: 1 * time.Second,
